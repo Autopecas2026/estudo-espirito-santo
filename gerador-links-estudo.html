@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudo · Espírito Santo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1206;
+  --surface: #241a0a;
+  --surface2: #2e2210;
+  --border: #3d2e18;
+  --gold: #c9964a;
+  --gold2: #e8c07a;
+  --cream: #f5edd8;
+  --muted: #8a7355;
+  --green: #25d366;
+  --serif: 'Fraunces', serif;
+  --sans: 'DM Sans', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh;}
+
+/* ── MODO VISUALIZAÇÃO (celular via link) ── */
+#view-mode {
+  display:none;
+  min-height:100vh;
+  background: linear-gradient(160deg, #1a1206 0%, #2a1a08 100%);
+  padding: 2rem 1.5rem;
+}
+.view-inner { max-width: 500px; margin: 0 auto; }
+.view-cruz {
+  text-align:center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  opacity: .6;
+}
+.view-title {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: .3rem;
+}
+.view-nome {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--gold2);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.view-pq {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--gold);
+}
+.view-pq-num {
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .5rem;
+}
+.view-pq-text {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--cream);
+}
+.view-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+/* ── MODO GERADOR (computador) ── */
+#gen-mode { display: block; }
+
+header {
+  background: linear-gradient(135deg, #1a1206, #2e1e08);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+header h1 { font-family: var(--serif); font-size: 1.8rem; color: var(--gold2); margin-bottom: .3rem; }
+header p { font-size: .85rem; color: var(--muted); }
+
+main { max-width: 860px; margin: 0 auto; padding: 2rem; }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.panel h2 { font-family: var(--serif); font-size: 1.2rem; color: var(--gold2); margin-bottom: .4rem; }
+.panel p { font-size: .83rem; color: var(--muted); margin-bottom: 1.4rem; line-height: 1.6; }
+
+.people-grid { display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.4rem; }
+.person-row { display: flex; gap: .7rem; align-items: center; }
+.person-num {
+  width: 28px; height: 28px; flex-shrink: 0;
+  background: var(--gold); color: var(--bg);
+  border-radius: 50%; font-size: .75rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+input[type=text] {
+  flex: 1; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: .6rem 1rem;
+  color: var(--cream); font-family: var(--sans); font-size: .88rem; outline: none;
+  transition: border-color .15s;
+}
+input:focus { border-color: var(--gold); }
+input::placeholder { color: var(--muted); }
+.btn-remove {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--muted); width: 32px; height: 32px; cursor: pointer; font-size: 1rem;
+  transition: all .15s; flex-shrink: 0;
+}
+.btn-remove:hover { border-color: #c0392b; color: #c0392b; }
+
+.row-btns { display: flex; gap: .8rem; flex-wrap: wrap; align-items: center; }
+.btn-sec {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--cream); padding: .55rem 1.1rem; font-family: var(--sans); font-size: .83rem;
+  cursor: pointer; transition: all .15s;
+}
+.btn-sec:hover { border-color: var(--gold); color: var(--gold); }
+.btn-primary {
+  background: var(--gold); border: none; border-radius: 8px;
+  color: var(--bg); padding: .6rem 1.6rem; font-family: var(--sans); font-size: .88rem; font-weight: 600;
+  cursor: pointer; transition: background .15s; margin-left: auto;
+}
+.btn-primary:hover { background: var(--gold2); }
+
+/* ── RESULTADO ── */
+#resultado { display: none; }
+.result-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+}
+.result-header h2 { font-family: var(--serif); font-size: 1.3rem; color: var(--gold2); }
+
+.person-result {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+}
+.pr-head {
+  background: var(--surface2);
+  padding: 1rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.pr-name-row { display: flex; align-items: center; gap: 10px; }
+.pr-avatar {
+  width: 36px; height: 36px;
+  background: var(--gold); color: var(--bg);
+  border-radius: 50%; font-family: var(--serif); font-size: 1.1rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.pr-name { font-size: .95rem; font-weight: 600; color: var(--gold2); }
+.pr-sub { font-size: .72rem; color: var(--muted); }
+
+.btn-wpp {
+  background: var(--green); border: none; border-radius: 8px;
+  color: #fff; padding: .5rem 1.1rem; font-family: var(--sans); font-size: .82rem; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none;
+  white-space: nowrap;
+}
+.btn-wpp:hover { opacity: .9; }
+
+.btn-copy {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--muted); padding: .5rem 1rem; font-family: var(--sans); font-size: .78rem;
+  cursor: pointer; transition: all .15s; white-space: nowrap;
+}
+.btn-copy:hover { border-color: var(--gold); color: var(--gold); }
+.btn-copy.copiado { border-color: var(--green); color: var(--green); }
+
+.pr-body { padding: 1.2rem 1.4rem; }
+.pr-link-box {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 6px;
+  padding: .6rem 1rem; font-size: .72rem; color: var(--muted); word-break: break-all;
+  margin-bottom: 1rem; font-family: monospace;
+}
+.pq-preview { display: flex; flex-direction: column; gap: .5rem; }
+.pq-item {
+  background: var(--bg); border-radius: 6px; padding: .6rem .9rem;
+  font-size: .78rem; line-height: 1.5; border-left: 2px solid var(--gold);
+}
+.pq-num { color: var(--gold); font-weight: 600; font-size: .7rem; display: block; margin-bottom: 2px; }
+
+.info-box {
+  background: rgba(201,150,74,.08); border: 1px solid rgba(201,150,74,.2);
+  border-radius: 10px; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem;
+  font-size: .83rem; line-height: 1.7; color: var(--cream);
+}
+.info-box strong { color: var(--gold2); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ MODO VISUALIZAÇÃO (celular) ═══════════ -->
+<div id="view-mode">
+  <div class="view-inner" id="view-inner"></div>
+</div>
+
+<!-- ═══════════ MODO GERADOR (computador) ═══════════ -->
+<div id="gen-mode">
+  <header>
+    <h1>Estudo · O Espírito Santo</h1>
+    <p>Gere links personalizados para enviar pelo WhatsApp — sem hospedar nada</p>
+  </header>
+
+  <main>
+    <div class="panel">
+      <h2>Participantes</h2>
+      <p>Digite o nome de cada pessoa. Será gerado um link individual para enviar no WhatsApp — ao tocar, ela vê apenas as perguntas dela.</p>
+      <div class="people-grid" id="people-grid"></div>
+      <div class="row-btns">
+        <button class="btn-sec" onclick="addPerson()">＋ Adicionar pessoa</button>
+        <button class="btn-sec" onclick="redistribuir()">🔀 Redistribuir</button>
+        <button class="btn-primary" onclick="gerar()">Gerar links →</button>
+      </div>
+    </div>
+
+    <div id="resultado">
+      <div class="result-header">
+        <h2>Links gerados ✦</h2>
+        <button class="btn-sec" onclick="voltarSetup()">← Editar</button>
+      </div>
+
+      <div class="info-box">
+        💡 <strong>Como usar:</strong> Clique em <strong>"Enviar pelo WhatsApp"</strong> para mandar direto para a pessoa, ou em <strong>"Copiar link"</strong> para colar onde quiser. Quando a pessoa tocar no link, ela vê as perguntas dela na tela do celular — sem precisar instalar nada.
+      </div>
+
+      <div id="cards-output"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+const PERGUNTAS = [
+  "Você achou coerente e compreensível a analogia sobre a Trindade? Já a conhecia? Conhece outra analogia utilizada para tornar a noção da Trindade compreensível?",
+  "No decorrer da história, acha que sempre as 3 pessoas da Trindade foram destacadas igualmente? Quem você mais conhece: Pai, Filho ou Espírito Santo?",
+  "Você tem convicção que o Espírito Santo é uma pessoa? Quais seriam as evidências? Ou para você ele é apenas uma força, uma energia, um sentimento?",
+  "Qual atributo do Espírito Santo você reconhece em cada texto: Jo 14.26, Jo 15.26, Rm 8.26-27, Rm 8.14, At 13.2 e Ef 4.30? Você teria mais algum atributo que reforce que ele é uma pessoa?",
+  "Você sabe que o Espírito Santo estava na fundação do mundo, no início de tudo? Leia Gn 1.2 e compartilhe o que entende.",
+  "Na compreensão de vocês, existiria Avivamento sem o Espírito Santo? Por quê?",
+  "Da Trindade, quem está agindo atualmente na Terra em sua compreensão? Explique seu raciocínio.",
+  "Que conclusão ou compreensão temos lendo At 2.1-4? O que esse texto revela sobre o Espírito Santo?",
+  "Pensando no Espírito Santo como uma pomba, em quais condições naturais uma pomba pousaria sobre sua cabeça? O que isso nos diz sobre nossa relação com ele?",
+  "Ao ler 1 Cor 6.18-20, entendemos que somos templos do Espírito Santo. Será que temos valorizado e cultivado um relacionamento com ele como deveria?",
+  "Lendo 1 Co 2.10-11, qual seria o seu entendimento sobre o papel do Espírito Santo em nos levar a conhecer Deus em maior profundidade?",
+  "Lendo Jo 16.13-14, qual nossa compreensão sobre como o Espírito Santo nos revela a verdade e nos leva a glorificar mais Jesus?",
+  "Com tudo que aprendemos hoje, o que faremos com o Espírito Santo? Como isso muda sua vida prática?"
+];
+
+let pessoas = [];
+let distribuicao = {};
+
+function init() {
+  for (let i = 0; i < 5; i++) addPerson();
+}
+
+function addPerson() {
+  if (pessoas.length >= 13) return;
+  pessoas.push({ id: Date.now() + Math.random(), nome: '' });
+  renderPeople();
+}
+
+function removePerson(id) {
+  if (pessoas.length <= 2) return;
+  pessoas = pessoas.filter(p => p.id !== id);
+  renderPeople();
+}
+
+function renderPeople() {
+  const grid = document.getElementById('people-grid');
+  grid.innerHTML = pessoas.map((p, i) => `
+    <div class="person-row">
+      <div class="person-num">${i+1}</div>
+      <input type="text" placeholder="Nome da pessoa ${i+1}" value="${esc(p.nome)}"
+        oninput="pessoas[${i}].nome=this.value">
+      <button class="btn-remove" onclick="removePerson(${p.id})">×</button>
+    </div>
+  `).join('');
+}
+
+function distribuirPerguntas(ativos) {
+  const n = ativos.length;
+  const indices = [...Array(PERGUNTAS.length).keys()];
+  for (let i = indices.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [indices[i],indices[j]] = [indices[j],indices[i]];
+  }
+  const dist = {};
+  const base = Math.floor(PERGUNTAS.length / n);
+  const extra = PERGUNTAS.length % n;
+  let cursor = 0;
+  ativos.forEach((_, i) => {
+    const qtd = base + (i < extra ? 1 : 0);
+    dist[i] = indices.slice(cursor, cursor + qtd);
+    cursor += qtd;
+  });
+  return dist;
+}
+
+function redistribuir() {
+  const ativos = pessoas.filter(p => p.nome.trim());
+  if (!ativos.length) return;
+  distribuicao = distribuirPerguntas(ativos);
+  alert('Perguntas redistribuídas! Clique em "Gerar links" para ver.');
+}
+
+function gerarLink(nome, pqs) {
+  // Codifica tudo na URL — funciona sem servidor
+  const data = { nome, perguntas: pqs };
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  return window.location.href.split('?')[0] + '?d=' + encoded;
+}
+
+function gerar() {
+  const ativos = pessoas.filter(p => p.nome.trim());
+  if (ativos.length < 2) { alert('Adicione pelo menos 2 pessoas com nome.'); return; }
+  if (!Object.keys(distribuicao).length) {
+    distribuicao = distribuirPerguntas(ativos);
+  }
+
+  const output = document.getElementById('cards-output');
+  output.innerHTML = '';
+
+  ativos.forEach((p, i) => {
+    const pqs = (distribuicao[i] || []).map(idx => ({ num: idx+1, texto: PERGUNTAS[idx] }));
+    const link = gerarLink(p.nome, pqs);
+
+    // Mensagem WhatsApp
+    const msg = `Olá, ${p.nome}! 🕊️\nSegue o link com suas perguntas para o estudo de hoje:\n${link}`;
+    const wppLink = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+
+    const div = document.createElement('div');
+    div.className = 'person-result';
+    div.innerHTML = `
+      <div class="pr-head">
+        <div class="pr-name-row">
+          <div class="pr-avatar">${p.nome.trim()[0].toUpperCase()}</div>
+          <div>
+            <div class="pr-name">${esc(p.nome)}</div>
+            <div class="pr-sub">${pqs.length} perguntas atribuídas</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+          <button class="btn-copy" onclick="copiarLink('${encodeURIComponent(link)}', this)">📋 Copiar link</button>
+          <a class="btn-wpp" href="${wppLink}" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enviar pelo WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="pr-body">
+        <div class="pr-link-box">${esc(link)}</div>
+        <div class="pq-preview">
+          ${pqs.map(q => `
+            <div class="pq-item">
+              <span class="pq-num">Pergunta ${q.num}</span>
+              ${esc(q.texto)}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    output.appendChild(div);
+  });
+
+  document.querySelector('.panel').style.display = 'none';
+  document.getElementById('resultado').style.display = 'block';
+}
+
+function copiarLink(encodedLink, btn) {
+  const link = decodeURIComponent(encodedLink);
+  navigator.clipboard.writeText(link).then(() => {
+    btn.textContent = '✓ Copiado!';
+    btn.classList.add('copiado');
+    setTimeout(() => { btn.textContent = '📋 Copiar link'; btn.classList.remove('copiado'); }, 2000);
+  });
+}
+
+function voltarSetup() {
+  document.querySelector('.panel').style.display = 'block';
+  document.getElementById('resultado').style.display = 'none';
+  distribuicao = {};
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── MODO VISUALIZAÇÃO ──
+window.onload = () => {
+  const params = new URLSearchParams(window.location.search);
+  const d = params.get('d');
+  if (d) {
+    try {
+      const data = JSON.parse(decodeURIComponent(escape(atob(d))));
+      document.getElementById('gen-mode').style.display = 'none';
+      document.getElementById('view-mode').style.display = 'block';
+      document.getElementById('view-inner').innerHTML = `
+        <div class="view-cruz">🕊️</div>
+        <div class="view-title">Estudo · O Espírito Santo</div>
+        <div class="view-nome">${esc(data.nome)}</div>
+        ${data.perguntas.map((q, i) => `
+          <div class="view-pq">
+            <div class="view-pq-num">Pergunta ${q.num} · ${i+1} de ${data.perguntas.length}</div>
+            <div class="view-pq-text">${esc(q.texto)}</div>
+          </div>
+        `).join('')}
+        <div class="view-footer">✦ Bom estudo! ✦</div>
+      `;
+    } catch(e) {
+      document.getElementById('view-inner').innerHTML = '<p style="color:#c0392b;text-align:center;padding:2rem">Link inválido.</p>';
+    }
+  } else {
+    init();
+  }
+};
+</script>
+</body>
+</html>
